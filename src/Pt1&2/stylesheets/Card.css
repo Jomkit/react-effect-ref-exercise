@@ -1,0 +1,7 @@
+.Card {
+    position: absolute;
+    
+    transform-origin: center;
+    transform: translate(0, 0);
+    /* transform: rotate(45deg); */
+}
