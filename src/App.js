@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       {/* <Deck /> */}
       <AutoDeck />
-      <TestTimer />
+      {/* <TestTimer /> */}
     </div>
   );
 }

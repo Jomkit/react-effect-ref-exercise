@@ -9,6 +9,8 @@ const Deck = () => {
     const [deckData, setDeckData] = useState(null);
     const [deck, setDeck] = useState([]);
     const [isShuffling, setIsShuffling] = useState(false);
+    const [start, setStart] = useState(false);
+    const intervalId = useRef(null);
     const remaining = useRef(52);
 
     const BASEURL = "https://deckofcardsapi.com/api/deck/"
@@ -28,6 +30,17 @@ const Deck = () => {
         
         // console.log("Deck Data", deckData.deck_id);
     }, []);
+
+    // handle the auto-draw
+    useEffect(() => {
+        if(start){
+            intervalId.current = setInterval(() => {
+                addCard();
+            }, 1000)
+        }
+
+        return () => (clearInterval(intervalId.current));
+    }, [start])
 
     const rotateCard = () => {
         const deg = Math.random()* 360;
@@ -69,7 +82,14 @@ const Deck = () => {
             <h1 className='Deck-header'>Automatic Deck of Cards</h1>
             <div>
                 <button onClick={shuffleDeck} disabled={isShuffling}>Shuffle</button>
-                <button onClick={addCard} disabled={isShuffling}>Gimme a card!</button>
+
+                {/* <button onClick={addCard} disabled={isShuffling}>Gimme a card!</button> */}
+                {!start ? 
+                <button onClick={() => (setStart(true))} disabled={isShuffling}>Gimme a card!</button>
+                : 
+                <button onClick={() => (setStart(false))} disabled={isShuffling}>Pause</button>
+                }
+                
             </div>
             <p className='Deck-remainingcards'>Remaining cards: {remaining.current}</p>
             <div className='Deck-area'>
